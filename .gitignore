@@ -1,0 +1,10 @@
+# 秘密情報（見本は.env.example）
+.env
+
+# ログイン状態
+auth.json
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
