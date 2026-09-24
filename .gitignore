@@ -4,6 +4,9 @@
 # ログイン状態
 auth.json
 
+# 実行情報
+log.csv
+
 # Python
 __pycache__/
 *.py[cod]
