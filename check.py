@@ -270,7 +270,7 @@ def main():
         else:
             lines = find_changes(old, new)
             if lines:
-                lines.insert(0, "学部生ページが更新されました**")
+                lines.insert(0, "学部生ページが更新されました")
                 for message in split_messages(lines):
                     send(message, dry_run)
             else:
