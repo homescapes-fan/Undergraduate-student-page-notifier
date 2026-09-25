@@ -17,6 +17,7 @@ with sync_playwright() as p:
 
     if success:
         print(page.url)
+        context.storage_state(path="auth.json")
     else:
         print("失敗")
 
