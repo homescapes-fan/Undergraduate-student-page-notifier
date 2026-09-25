@@ -102,8 +102,14 @@ def read_portal(page):
 # ---------------------------------------------------------------- 比較
 
 def escape(text):
-    """Discord の装飾記号（_ や * など）を、ただの文字として表示させる"""
+    """Discord の装飾記号（_ や * など）を、ただの文字として表示させる。
+    リンクの文字の中では \\ がそのまま見えてしまうので、リンクの外でだけ使う"""
     return re.sub(r"([\\*_~`|\[\]>])", r"\\\1", text)
+
+
+def link_label(text):
+    """リンクの文字に使う。リンクの書き方を壊す [ ] だけを全角に置き換える"""
+    return text.replace("[", "［").replace("]", "］")
 
 
 def find_changes(old, new):
@@ -116,9 +122,11 @@ def find_changes(old, new):
 
         changes = []
         for item_id, item in after.items():
-            link = f"[{escape(item['title'])}](<{item['url']}>)"
+            # 資料名はリンクの外に書き（_ などを正しく表示するため）、「追加」「更新」の文字をリンクにする
+            title = escape(item["title"])
+            url = item["url"]
             if item_id not in before:
-                changes.append(f"・追加：{link}（{item['updated']}）")
+                changes.append(f"・[追加](<{url}>)：{title}（{item['updated']}）")
             elif item != before[item_id]:
                 prev = before[item_id]
                 details = []
@@ -126,14 +134,14 @@ def find_changes(old, new):
                     details.append(f"{prev['updated']} → {item['updated']}")
                 if prev["title"] != item["title"]:
                     details.append(f"旧タイトル：{escape(prev['title'])}")
-                changes.append(f"・更新：{link}（{'、'.join(details)}）")
+                changes.append(f"・[更新](<{url}>)：{title}（{'、'.join(details)}）")
         for item_id, item in before.items():
             if item_id not in after:
                 changes.append(f"・削除：{escape(item['title'])}")
 
         if changes:
             lines.append("")
-            lines.append(f"**[{escape(category['name'])}](<{category['url']}>)**")
+            lines.append(f"**[{link_label(category['name'])}](<{category['url']}>)**")
             lines.extend(changes)
     return lines
 
