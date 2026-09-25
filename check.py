@@ -6,7 +6,7 @@ URL = "https://sp.ritsumei.ac.jp/studentportal/s/student10"
 with sync_playwright() as p:
     success = True
     try:
-        browser = p.chromium.launch(headless=True)
+        browser = p.chromium.launch(headless=True, channel="chrome")
         context = browser.new_context(storage_state="auth.json")
         page = context.new_page()
 
@@ -29,4 +29,3 @@ with sync_playwright() as p:
 
     with open("log.csv", "a", encoding="utf-8") as f:
         f.write(line+"\n")
-
