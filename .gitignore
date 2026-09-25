@@ -6,6 +6,11 @@ auth.json
 
 # 実行情報
 log.csv
+error.log
+
+# 前回読み取った内容（ポータルの中身なので公開しない）
+state.json
+state.tmp
 
 # Python
 __pycache__/
